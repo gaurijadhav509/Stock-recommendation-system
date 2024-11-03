@@ -19,7 +19,7 @@ from django.urls import include, path
 from django.views.generic import RedirectView
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='/srsApp/')),  # Redirect root to srsApp
-    path('srsApp/', include('srsApp.urls')),
+    path('srsApp/', include('srsApp.urls')),  # Redirect root to srsApp
+    # path('srsApp/', include('srsApp.urls')),
     path('admin/', admin.site.urls),
 ]

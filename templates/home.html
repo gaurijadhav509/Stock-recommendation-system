@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InvestIQ - Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.styles.css' %}">
 </head>
 <body>
     <div class="nav-bar">
@@ -12,7 +14,7 @@
         </div>
         <div class="auth-buttons">
             <a href="login">Sign In</a>
-            <a href="{% url 'user_signup_view' %}">
+            <a href="signup">
                 <button>Sign Up</button>
             </a>
         </div>

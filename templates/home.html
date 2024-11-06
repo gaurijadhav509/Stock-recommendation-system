@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvestIQ - Home</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.styles.css' %}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+    </style>
+    <style>
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh; 
+            background: linear-gradient(0deg, #008E77, #002D72); 
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            top: 36px;
+            left: 43px;
+        }
+
+        .auth-buttons button {
+            width: 130px;
+            height: 48px;
+            border-radius: 40px;
+            border: none;
+            background-color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: black;
+        }
+
+        .auth-buttons a {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            color: white;
+            padding: 10px;
+        }
+
+        .auth-buttons {
+            margin-top: 50px;
+            margin-right: 100px;
+        }
+
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+
+        .content h1 {
+            position: absolute; 
+            left: 170px; 
+            top: 110px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 50px;
+            font-weight: 600; 
+        }
+
+        .content h2 {
+            position: absolute; 
+            left: 170px; 
+            top: 180px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 28px;
+            font-style: italic;
+            font-weight: 200; 
+        }
+
+        .content p {
+            position: absolute; 
+            width: 40vw;
+            left: 170px; 
+            top: 300px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            font-weight: 200; 
+        }
+
+        .content button {
+            width: 300px;
+            height: 70px;
+            border-radius: 40px;
+            border: none;
+            background-color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: black;
+
+            position: absolute; 
+            left: 170px; 
+            top: 530px;
+        }
+
+        button:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+        
+        .arrow-image img {
+            width: 50%; 
+            height: 90%; 
+            object-fit: cover; /* Crop the image to fit */
+            
+            position: fixed;
+            bottom: -130px; 
+            right: 220px;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="logo">
+            <img src="../../static/image/logo_light_no_text.png" alt="InvestIQ Logo">
+        </div>
+        <div class="auth-buttons">
+            <a href="login">Sign In</a>
+            <a href="signup">
+                <button>Sign Up</button>
+            </a>
+        </div>
+    </div>
+    <div class="content">
+        <h1 class="headline">Unlock Your Investment Potential with InvestIQ</h1>
+        <h2 class="subheading">Personalized Stock Recommendations Tailored Just for You</h2>
+
+        <p class="body-text">At InvestIQ, we simplify smart investing with our AI-powered Stock Recommendation System, offering tailored stock suggestions based on your unique preferences. Whether you're a novice or refining your strategy, we help you make confident investment choices.</p>
+
+        <a href="login" class="cta-button">
+            <button>Discover Your Stocks</button>
+        </a>
+    </div>
+    <div class="arrow-image">
+        <img src="../../static/image/trend_arrow.png" alt="Arrow" width="100">
+    </div>
+</body>
+</html>

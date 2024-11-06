@@ -84,7 +84,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "stock_recommendation_system_db",
         "USER": "admin",
-        "PASSWORD": "abc123!",
+        "PASSWORD": "admin@123",
         "HOST": "127.0.0.1",
         "PORT": "3306",
     }

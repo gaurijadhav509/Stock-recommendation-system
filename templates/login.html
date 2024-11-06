@@ -146,15 +146,16 @@
             <img src="{% static 'image/logo_dark_no_text.png' %}" alt="InvestIQ Logo">
         </div>
         <h2>Login to Your Account</h2>
-        <form action="login" method="POST">
+        <form name="login" action="" method="POST">
+            {% csrf_token %}
             <div>
-                <input type="text" id="email" name="email" placeholder="Email" required>
+                <input type="text" id="email" name="u_email" placeholder="Email" required>
             </div>
             <div>
-                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="password" id="password" name="u_password" placeholder="Password" required>
             </div>
             <div>
-                <button type="submit">Sign In</button>
+                <button type="submit" name="login">Sign In</button>
             </div>
         </form>
     </div>

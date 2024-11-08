@@ -33,30 +33,19 @@ def login_view(request):
             user = Users.objects.get(email=email_v)
             
             if(user.password == password_v):
-                return redirect('/srsApp/login_success')
+                messages.success(request, 'Login Successful!')
+                return redirect('/srsApp/login_success', {})
             else:
+                messages.warning(request, 'invalid username or password!')
                 return redirect('/srsApp/login')
                 
         else:
+            messages.warning(request, 'invalid username or password!')
             print("hereee1")
             return redirect('/srsApp/login')
     else:
         return render(request, "login.html")
 
-
-def login_user(request):
-    email_v = request.POST['u_email']
-    password_v = request.POST['u_password']
-
-    user = authenticate(request, username=email_v, password=password_v)
-    print(user)
-        
-    if user is not None:
-        login(request, user)
-        return redirect('login_success')  # Redirect to a success page
-    else:
-        messages.error(request, 'Invalid username or password')
-        return redirect('/login')
     
 
 def login_success(request):
@@ -64,13 +53,13 @@ def login_success(request):
 
 
 def user_signup_view(request):
+    if request.method == "POST":
+        name_v = request.POST['u_name']
+        email_v = request.POST['u_email']
+        password_v = request.POST['u_password']
+
+        us = Users(name=name_v, email = email_v, password = password_v)
+        us.save()
+        messages.success(request, 'User Registerd successfully!')
+        return redirect('/srsApp/login_success')
     return render(request, 'signup.html')
-
-def insert_user(request):
-    name_v = request.POST['u_name']
-    email_v = request.POST['u_email']
-    password_v = request.POST['u_password']
-
-    us = Users(name=name_v, email = email_v, password = password_v)
-    us.save()
-    return render(request, 'home.html', {})

@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.core.validators import EmailValidator
+from django.core.exceptions import ValidationError
 
 from django.contrib.auth.models import User
 
@@ -57,9 +59,27 @@ def user_signup_view(request):
         name_v = request.POST['u_name']
         email_v = request.POST['u_email']
         password_v = request.POST['u_password']
+        conf_pass_v = request.POST['conf_password']
 
-        us = Users(name=name_v, email = email_v, password = password_v)
-        us.save()
-        messages.success(request, 'User Registerd successfully!')
-        return redirect('/srsApp/login_success')
+        validator = EmailValidator(message='Enter a valid email address.')
+
+        try:
+            validator(email_v)
+
+            if (Users.objects.filter(email=email_v).exists()):
+                messages.warning(request, 'User already exists.')
+                return render(request, 'signup.html')
+            elif(password_v != conf_pass_v):
+                messages.warning(request, 'Password doesn\'t match.')
+                return render(request, 'signup.html')
+            else:
+                us = Users(name=name_v, email = email_v, password = password_v)
+                us.save()
+                messages.success(request, 'User Registerd successfully!')
+                return redirect('/srsApp/login_success')
+
+        except ValidationError as e:
+            messages.warning(request, 'Email is invalid')
+            return render(request, 'signup.html')
+
     return render(request, 'signup.html')

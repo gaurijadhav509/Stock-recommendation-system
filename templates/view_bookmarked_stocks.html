@@ -1,0 +1,211 @@
+<!-- view_bookmarked_stocks.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Stocks</title>
+</head>
+<body>
+    <header>
+        <h1>Stocks</h1> -->
+        <!-- Link to go back to the home page -->
+        <!-- <a href="{% url 'home' %}">Back to Home</a>
+    </header>
+
+    <table border="1">
+        <tr>
+            <th>Symbol</th>
+            <th>Company Name</th>
+            <th>Sector</th>
+            <th>Market Cap</th>
+            <th>Created At</th>
+        </tr>
+        {% for stock in bookmarked_stocks %}
+        <tr>
+            <td>{{ stock.symbol }}</td>
+            <td>{{ stock.name }}</td>
+            <td>{{ stock.sector }}</td>
+            <td>{{ stock.market_cap }}</td>
+            <td>{{ stock.created_at }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InvestIQ - Bookmarked Stocks</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/home.styles.css' %}">
+    <style>
+        /* Custom Styles for Bookmarked Stocks Page */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(0deg, #008E77, #002D72); /* Same background as home page */
+            min-height: 100vh;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .auth-buttons {
+            margin-top: 10px;
+            margin-right: 20px;
+        }
+
+        .auth-buttons a {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            color: white;
+            padding: 10px;
+        }
+
+        /* Content Section */
+        .content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+            margin-top: 50px;
+        }
+
+        .content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 40px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            font-family: 'Poppins', sans-serif;
+            font-size: 20px;
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 80%;
+        }
+
+        /* Table for Bookmarked Stocks */
+        .stock-table {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background for the table */
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .stock-table th, .stock-table td {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .stock-table th {
+            background-color: #004D60;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .stock-table td {
+            font-size: 16px;
+        }
+
+        .stock-table tr:nth-child(even) {
+            background-color: #00384D;
+        }
+
+        /* Footer/CTA Button Section */
+        .cta-button {
+            margin-top: 30px;
+        }
+
+        .cta-button button {
+            width: 200px;
+            height: 50px;
+            border-radius: 30px;
+            border: none;
+            background-color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            color: black;
+        }
+
+        .cta-button button:hover {
+            background-color: #f0f0f0;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-bar">
+        <div class="logo">
+            <img src="{% static 'image/logo_light_no_text.png' %}" alt="InvestIQ Logo">
+        </div>
+        <div class="auth-buttons">
+            <a href="{% url 'login' %}">Sign In</a>
+            <a href="{% url 'signup' %}">
+                <button>Sign Up</button>
+            </a>
+            <a href="{% url 'home' %}">Back to Home</a>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>Your Bookmarked Stocks</h1>
+        <p>Here are the stocks you've bookmarked for easy reference. Check out the latest data and make informed decisions!</p>
+
+        <!-- Table displaying bookmarked stocks -->
+        <table class="stock-table">
+            <tr>
+                <th>Symbol</th>
+                <th>Company Name</th>
+                <th>Sector</th>
+                <th>Market Cap</th>
+                <th>Created At</th>
+            </tr>
+            {% for stock in bookmarked_stocks %}
+            <tr>
+                <td>{{ stock.symbol }}</td>
+                <td>{{ stock.name }}</td>
+                <td>{{ stock.sector }}</td>
+                <td>{{ stock.market_cap }}</td>
+                <td>{{ stock.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <!-- Optional CTA Button to explore more or return -->
+        <div class="cta-button">
+            <a href="{% url 'home' %}">
+                <button>Back to Home</button>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

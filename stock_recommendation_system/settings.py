@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 import os
 from pathlib import Path
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -84,7 +85,7 @@ DATABASES = {
         "ENGINE": "django.db.backends.mysql",
         "NAME": "stock_recommendation_system_db",
         "USER": "admin",
-        "PASSWORD": "abc123!",
+        "PASSWORD": "admin@123",
         "HOST": "127.0.0.1",
         "PORT": "3306",
     }

@@ -150,43 +150,53 @@
             margin: 0px;
         }
 
-        /*
-        .recommendations li {
-            background-color: #D3E0EB;
-            padding-left: 20px;
-            border: none;
-            border-radius: 40px;
-            margin-top: 10px;
-
-            color: #696969;
-            font-family: 'Poppins', sans-serif;
-            font-size: 10px;
-            font-weight: 400;
-
-            width: 300px;
-            height: 40px;
-        }
-*/
-        .asset-content {
-            margin-top: 15px;
-
+        .result-fields {
             width: 300px;
             height: 70px;
+
+            margin-top: 15px;
+            padding-left: 30px;
+            padding-top: 10px;
+
             background-color: #D3E0EB;
             border-radius: 40px;
             border: none;
-            padding-left: 20px;
-            padding-top: 10px;
             font-family: 'Poppins', sans-serif;
             font-size: 10px;
             font-weight: 400;
             color: #696969;
+
+            display: flex;
+            flex-direction: row;
         }
 
         .recommendations li strong {
             font-weight: bold;
         }
+
+        .bookmark-icon {
+            cursor: pointer;
+        }
     </style>
+    <script>
+        function toggleBookmark(event) {
+            // Get the clicked bookmark icon's parent element (which contains both icons)
+            const bookmark = event.target.closest('.bookmark');
+
+            // Get the two bookmark SVGs inside the clicked bookmark container
+            const outlineIcon = bookmark.querySelector('.bookmark-outline');
+            const filledIcon = bookmark.querySelector('.bookmark-filled');
+
+            // Toggle between the icons
+            if (outlineIcon.style.display === 'none') {
+                outlineIcon.style.display = 'inline';
+                filledIcon.style.display = 'none';
+            } else {
+                outlineIcon.style.display = 'none';
+                filledIcon.style.display = 'inline';
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="logo">
@@ -237,13 +247,30 @@
             {% else %}
                 <ul>
                     {% for stock in stocks %}
-                        <div class="asset-content">
-                            <li>
-                                <strong>Symbol:</strong> {{ stock.symbol }}<br>
-                                <strong>Company:</strong> {{ stock.company }}<br>
-                                <strong>Sector:</strong> {{ stock.sector }}<br>
-                                <strong>Market Cap (in Billions):</strong> {{ stock.market_cap }}<br>
-                            </li>
+                        <div class="result-fields">
+                            <div class="asset-content">
+                                <li>
+                                    <strong>Symbol:</strong> {{ stock.symbol }}<br>
+                                    <strong>Company:</strong> {{ stock.company }}<br>
+                                    <strong>Sector:</strong> {{ stock.sector }}<br>
+                                    <strong>Market Cap (in Billions):</strong> {{ stock.market_cap }}
+                                </li>
+                            </div>
+                            <div class="bookmark">
+                                <span class="bookmark-icon" onclick="toggleBookmark(event)" data-id="{{ stock.id }}">
+                                    
+                                    <!-- Outline Bookmark SVG -->
+                                    <svg id="bookmark-outline" class="bookmark-outline" width="27" height="32" viewBox="0 0 27 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 29.0339V2C1 1.44772 1.44772 1 2 1H25C25.5523 1 26 1.44772 26 2V29.0929C26 29.8993 25.0946 30.374 24.4313 29.9155L13.755 22.5341C13.4053 22.2924 12.9409 22.2981 12.5973 22.5485L2.58895 29.8421C1.92809 30.3237 1 29.8516 1 29.0339Z" fill="#F5F5F5" stroke="#002D72" stroke-width="2"/>
+                                    </svg>
+                                        
+
+                                    <!-- Filled Bookmark SVG -->
+                                    <svg id="bookmark-filled" class="bookmark-filled" width="27" height="32" viewBox="0 0 27 32" fill="none" xmlns="http://www.w3.org/2000/svg"  style="display: none;">
+                                        <path d="M1 29.0339V2C1 1.44772 1.44772 1 2 1H25C25.5523 1 26 1.44772 26 2V29.0929C26 29.8993 25.0946 30.374 24.4313 29.9155L13.755 22.5341C13.4053 22.2924 12.9409 22.2981 12.5973 22.5485L2.58895 29.8421C1.92809 30.3237 1 29.8516 1 29.0339Z" fill="#003172" stroke="#002D72" stroke-width="2"/>
+                                    </svg> 
+                                </span>
+                            </div>
                         </div>
                     {% endfor %}
                 </ul>

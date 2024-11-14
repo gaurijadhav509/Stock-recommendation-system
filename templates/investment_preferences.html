@@ -19,6 +19,14 @@
             background: linear-gradient(0deg, #008E77, #002D72); 
         }
 
+        .logo img {
+            width: 60px;
+            height: 60px;
+            position: absolute;
+            top: 36px;
+            left: 43px;
+        }
+
         .container {
             display: flex;
             flex-direction: row; 
@@ -122,8 +130,12 @@
         }
     </style>
 </head>
-<div class="container">
-     <div class="form-section">
+<body>
+    <div class="logo">
+        <img src="../../static/image/logo_light_no_text.png" alt="InvestIQ Logo">
+    </div>
+    <div class="container">
+        <div class="form-section">
         <h2>Investment Preferences</h2>
         <form action="{% url 'submit_investment_preferences' %}" method="POST">
             {% csrf_token %}
@@ -155,7 +167,7 @@
         {% endif %}
     </div>
 
-     <div class="recommendations">
+        <div class="recommendations">
         <h3>Recommended Stocks:</h3>
         
         {% if not stocks %}
@@ -173,4 +185,5 @@
             </ul>
         {% endif %}
     </div>
-</div>
+    </div>
+</body>

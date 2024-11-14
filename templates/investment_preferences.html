@@ -129,16 +129,17 @@
             flex-direction: column;
         }
 
-        .recommendations h3 {
-            font-size: 1.5em;
+        .recommendations h2 {
+            text-align: center;
             color: #000;
-            margin-bottom: 10px;
+            font-size: 1.8em;
+            margin-bottom: 0px;
         }
 
         .no-recommendations {
             font-size: 1em;
             color: #888;
-            margin-top: 5px;
+            margin-top: 10px;
         }
 
         .recommendations ul {
@@ -201,22 +202,22 @@
         </div>
 
         <div class="recommendations">
-        <h3>Recommended Stocks:</h3>
-        
-        {% if not stocks %}
-            <p class="no-recommendations">No recommendations available</p>
-        {% else %}
-            <ul>
-                {% for stock in stocks %}
-                    <li>
-                        <strong>Symbol:</strong> {{ stock.symbol }}<br>
-                        <strong>Company:</strong> {{ stock.company }}<br>
-                        <strong>Sector:</strong> {{ stock.sector }}<br>
-                        <strong>Market Cap (in Billions):</strong> {{ stock.market_cap }}<br>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
+            <h2>Recommended Stocks</h2>
+            
+            {% if not stocks %}
+                <p class="no-recommendations">No recommendations available</p>
+            {% else %}
+                <ul>
+                    {% for stock in stocks %}
+                        <li>
+                            <strong>Symbol:</strong> {{ stock.symbol }}<br>
+                            <strong>Company:</strong> {{ stock.company }}<br>
+                            <strong>Sector:</strong> {{ stock.sector }}<br>
+                            <strong>Market Cap (in Billions):</strong> {{ stock.market_cap }}<br>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
     </div>
 </body>

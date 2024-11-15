@@ -46,7 +46,7 @@ def user_signup_view(request):
         conf_pass_v = request.POST['conf_password']
 
         validator = EmailValidator(message='Enter a valid email address.')
-
+ 
         try:
             validator(email_v)
 
@@ -59,12 +59,11 @@ def user_signup_view(request):
             else:
                 try:
                     insert_user(name=name_v, email=email_v, password=password_v)
+                    messages.success(request, 'User Registerd successfully!')
+                    return redirect('/srsApp/login_success')
                 except:
                     messages.warning(request, 'Something went wrong.')
-                    return render(request, 'signup.html')
-                    
-                messages.success(request, 'User Registerd successfully!')
-                return redirect('/srsApp/login_success')
+                    return render(request, 'signup.html')    
 
         except ValidationError as e:
             messages.warning(request, 'Email is invalid')

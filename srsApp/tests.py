@@ -21,7 +21,7 @@ class LoginViewTests(TestCase):
         }, follow=True)
         
         self.assertEqual(response.status_code, 200)
-        self.assertRedirects(response, reverse('login_success'))
+        self.assertRedirects(response, reverse('investment_preferences_view'))
 
         messages_list = list(response.context['messages'])
         self.assertEqual(len(messages_list), 1)
@@ -72,7 +72,7 @@ class SignupViewTests(TestCase):
 
         # Check if the user was redirected to the login success page
         self.assertEqual(response.status_code, 200)
-        self.assertRedirects(response, reverse('login_success'))
+        self.assertRedirects(response, reverse('investment_preferences_view'))
 
         # Check if the success message is displayed
         messages_list = list(response.context['messages'])

@@ -26,7 +26,38 @@ class Stocks(models.Model):
     class Meta:
         db_table = "Stocks"
 
-#### Investment Preferences Table.
+class Recommendation(models.Model):
+    recommendation_id = models.AutoField(primary_key=True, null=False)
+    recommended_at = models.DateTimeField(auto_now_add=True)
+    user_id = models.IntegerField(null=False)
+    stock_id = models.IntegerField(null=False)
+    # user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+    # stock_id = models.ForeignKey(Stocks, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "Recommendation"
+    
+# class Bookmarked_Stock(models.Model):
+#     bookmarked_id = models.AutoField(primary_key=True, null=False)
+#     bookmarked_at = models.DateTimeField(auto_now_add=True)
+#     user_id = models.IntegerField(null=False)
+#     stock_id = models.IntegerField(null=False)
+#     # user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
+#     # stock_id = models.ForeignKey(Stocks, on_delete=models.CASCADE)
+
+#     class Meta:
+#         db_table = "Bookmarked_Stocks"
+
+class Bookmarked_Stock(models.Model):
+    bookmarked_id = models.AutoField(primary_key=True, null=False)
+    bookmarked_at = models.DateTimeField(auto_now_add=True)
+    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)  # Foreign key to Users
+    stock_id = models.ForeignKey(Stocks, on_delete=models.CASCADE)  # Foreign key to Stocks
+
+    class Meta:
+        db_table = "Bookmarked_Stocks"
+
+    
 class Investment_Prefrences(models.Model):
     class Risk_Tolerance(models.IntegerChoices):
         LOW = 1,

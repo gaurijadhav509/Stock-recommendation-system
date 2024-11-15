@@ -131,3 +131,26 @@ def submit_investment_preferences(request):
         return render(request, 'investment_preferences.html', {'stocks': recommendations, 'error': None})
 
     return render(request, 'investment_preferences.html')
+def view_bookmarked_stocks(request):
+    # Check if the user is authenticated
+    if request.user.is_authenticated:
+        # Fetch all stocks (you can filter if needed, for example by sector or market_cap)
+        stocks = Stocks.objects.all()  # Fetch all stocks in the database
+    else:
+        # If the user is not logged in, show a default set of stocks (e.g., the first 5)
+        stocks = Stocks.objects.all()[:5]  # Show first 5 stocks for non-logged-in users
+
+    # Prepare the data to pass to the template
+    stocks_data = [
+        {
+            "symbol": stock.stock_symbol,
+            "name": stock.company_name,
+            "sector": stock.sector,
+            "market_cap": stock.market_cap,
+            "created_at": stock.created_at,
+        }
+        for stock in stocks
+    ]
+
+    # Render the template with the stocks data
+    return render(request, 'view_bookmarked_stocks.html', {'bookmarked_stocks': stocks_data})

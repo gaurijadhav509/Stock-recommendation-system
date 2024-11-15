@@ -8,7 +8,11 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
+<<<<<<< HEAD
 set VIRTUAL_ENV=C:\Users\patel\OneDrive\Desktop\Project\Project-1\Stock-recommendation-system\stock_recommendation_system
+=======
+set VIRTUAL_ENV=C:\Users\Riddhi\Stock-recommendation-system\stock_recommendation_system
+>>>>>>> origin/bookmarkedstockspage
 
 if not defined PROMPT set PROMPT=$P$G
 

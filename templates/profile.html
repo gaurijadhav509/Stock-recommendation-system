@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/main.css" type="text/css">
+    
+</head>
+<body>
+    {% comment %} <div class="navbar">
+        <ul id="myDIV">
+            <li><a href="{% url 'clg_data' %}" class="li_item">Countries</a></li>
+            <li><a href="{% url 'home' %}" class="li_item ">Home</a></li>
+            <li><a href="{% url 'View_Wishlist' %}" class="li_item">WishList</a></li>
+            <li><a href="{% url 'user_profile' %}" class="li_item active">Account</a></li>
+        </ul>
+        <div class="search_logout">
+            <div class="logout_div">
+                <form method="POST" action="/logout/" class="logout_box">
+                    {% csrf_token %}
+                    <input type="submit" value="LOGOUT" class="logout_btn" name="Logout">
+                </form>
+            </div>
+        </div>
+    </div> {% endcomment %}
+    <div class="container">
+        <h2 class="welcome">Welcome To My Website</h2>
+        <h1 class="title t_tile"> User Details </h1>
+        
+        <div class="t_div">
+            <form method="POST" action="/update_done/">
+                <table class="table">
+                    {% csrf_token %}
+                    <h1 class="t_head">Details Of Login User</h1>
+                    <tbody class="t_body">
+                        <tr>
+                            <th></th>
+                            <th>User Information</th>
+                        </tr>
+                        <tr>
+                            <td><label>Name</label></td>
+                            <td><input type="text" value="{{ user.name }}" class="t_input" name="fullname"></td>
+                            {% comment %} {% if 'up_enable' == res.up_enable %}
+                                <td><input type="text" value="{{ res.user.u_name }}" class="t_input" name="fullname"></td>
+                            {% else %}
+                                <td><input type="text" value="{{ user.u_name }}" class="t_input" name="fullname" disabled></td>
+                            {% endif %} {% endcomment %}
+                        </tr>
+                        <tr>
+                            <td><label>Email-ID</label></td>
+                            <td><input type="email" value="{{ user.email }}" class="t_input" name="em"></td>
+                            {% comment %} {% if 'up_enable' == res.up_enable %}
+                                <td><input type="email" value="{{ res.user.u_email }}" class="t_input" name="em"></td>
+                            {% else %}
+                                <td><input type="email" value="{{ user.u_email }}" class="t_input" name="em" disabled></td>
+                            {% endif %} {% endcomment %}
+                        </tr>
+                        <tr>
+                            <td><label>PassWord</label></td>
+                            <td><input type="text" value="{{ user.password }}" class="t_input" name="pwd"></td>
+                            {% comment %} {% if 'up_enable' == res.up_enable %}
+                                <td><input type="text" value="{{ res.user.u_pass }}" class="t_input" name="pwd"></td>
+                            {% else %}
+                                <td><input type="text" value="{{ user.u_pass }}" class="t_input" name="pwd" disabled></td>
+                            {% endif %} {% endcomment %}
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="t_btn">
+                    <input type="submit" value="Update Profile" class="t_btn1" formaction="/update_profile/">
+                    {% if 'up_done' == res.up_done %}
+                        <input type="submit" value="Done" class="t_btn1" formaction="/update_done/">
+                    {% else %}
+                        <input type="submit" value="Done" class="t_btn1" formaction="/update_doen/" disabled title="disable">
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

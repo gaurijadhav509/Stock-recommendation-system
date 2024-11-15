@@ -73,10 +73,12 @@ def user_signup_view(request):
 def investment_preferences_view(request):
     return render(request, 'investment_preferences.html')
 
-def submit_investment_preferences(request):
+def submit_investment_preferences(request, user_id):
     if request.method == 'POST':
         # Retrieve the user instance
-        user_instance = Users.objects.get(user_id=1)
+        user_instance = get_one_user_by_id(user_id=user_id)
+        print("user_instance", user_instance)
+        # user_instance = Users.objects.get(user_id=1)
         
         # Retrieve form data
         risk_tolerance = int(request.POST.get('risk_tolerance'))
@@ -91,13 +93,17 @@ def submit_investment_preferences(request):
 
         # Step 2: Save investment preference if valid
         investment_preference = Investment_Preferences.objects.create(
-            user_id=user_instance.user_id,
+            user_id=user_instance['user_id'],
             risk_tolerance=risk_tolerance,
             asset_type=asset_type,
             preferred_region=preferred_region,
             preferred_exchange=preferred_exchange
             # preferred_exchange=preferred_exchange
         )
+
+        investment_preference_id = investment_preference.preference_id
+
+        User_Investment_Preferences.objects.create(user_id= user_instance['user_id'], preference_id=investment_preference_id)
 
         # Step 3: Fetch recommendations from Gemini
         try:
@@ -117,3 +123,8 @@ def submit_investment_preferences(request):
         return render(request, 'investment_preferences.html', {'stocks': recommendations, 'error': None})
 
     return render(request, 'investment_preferences.html')
+
+def user_profile(request, email_v):
+    user = get_one_user(email_v)
+    print(user)
+    return render(request, 'profile.html', {'user': user})

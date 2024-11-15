@@ -16,6 +16,19 @@ def get_one_user(email):
 
     return user_data
 
+def get_one_user_by_id(user_id):
+    query = "SELECT * FROM stock_recommendation_system_db.users WHERE user_id = %s"
+    users = Users.objects.raw(query, [user_id])
+    user_data = {}
+    for user in users:
+        user_data['user_id'] = user.user_id
+        user_data['email'] = user.email
+        user_data['password'] = user.password
+        user_data['name'] = user.name
+        user_data['created_at'] = user.created_at
+
+    return user_data
+
 ### checking that if user is already exists in the database or not in USERS table.
 def check_user_exists(email):
     query = "SELECT * FROM stock_recommendation_system_db.users WHERE email = %s"

@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from .services import *
+from .sql_queries import *
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.core.validators import EmailValidator
@@ -20,33 +21,18 @@ genai.configure(api_key=os.environ["API_KEY"])
 
 
 def home_view(request):
-    return render(request, 'home.html') 
+    return render(request, 'home.html')
 
 def login_view(request):
     if request.method == "POST":
         email_v = request.POST['u_email']
         password_v = request.POST['u_password']
 
-        # user1 = User.objects.raw('SELECT * FROM users').columns
-        # user = Users.objects.raw('SELECT * FROM stock_recommendation_system_db.users')[0]
-        # user2 = Users.objects.all()
-        # user3 = Users.objects.filter(email=email_v).exists()
-        # print(user)
-        # print(user2[0].email)
-        # print(user3)
-        # print(user1)
-        # print(User.objects.all())
-
-        # print(request)
-        # print(authenticate(request, username=email_v, password=password_v))
-        # print(authenticate(request, email=email_v, password=password_v))
-
-        # user = authenticate(request, username=email_v, password=password_v)
-        if (Users.objects.filter(email=email_v).exists()):
+        if (check_user_exists(email_v)):
             print("hereee")
-            user = Users.objects.get(email=email_v)
+            user = get_one_user(email_v)
             
-            if(user.password == password_v):
+            if(user["password"] == password_v):
                 messages.success(request, 'Login Successful!')
                 return redirect('/srsApp/login_success', {})
             else:
@@ -59,8 +45,6 @@ def login_view(request):
             return redirect('/srsApp/login')
     else:
         return render(request, "login.html")
-
-    
 
 def login_success(request):
     return render(request, 'login_success.html')
@@ -78,15 +62,19 @@ def user_signup_view(request):
         try:
             validator(email_v)
 
-            if (Users.objects.filter(email=email_v).exists()):
+            if (check_user_exists(email_v)):
                 messages.warning(request, 'User already exists.')
                 return render(request, 'signup.html')
             elif(password_v != conf_pass_v):
                 messages.warning(request, 'Password doesn\'t match.')
                 return render(request, 'signup.html')
             else:
-                us = Users(name=name_v, email = email_v, password = password_v)
-                us.save()
+                try:
+                    insert_user(name=name_v, email=email_v, password=password_v)
+                except:
+                    messages.warning(request, 'Something went wrong.')
+                    return render(request, 'signup.html')
+                    
                 messages.success(request, 'User Registerd successfully!')
                 return redirect('/srsApp/login_success')
 

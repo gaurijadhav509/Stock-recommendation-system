@@ -151,12 +151,28 @@ def submit_investment_preferences(request):
 @csrf_exempt
 def save_bookmarks(request):
     if request.method == "POST":
-        data = json.loads(request.body)
+        # Retrieve the user instance
+        user_instance = Users.objects.get(user_id=1)
+
+        # Print the raw request body
+        print("Raw request body:", request.body)
+
+        # Parse the JSON payload
+        try:
+            data = json.loads(request.body)
+            print("Parsed data:", data)
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON data"}, status=400)
+        
         bookmarked_stocks = data.get("bookmarkedStocks", [])
-        user_id = request.user.id  # or retrieve user ID if user is logged in
+        #user_id = request.user.id  # or retrieve user ID if user is logged in
+
+        # Validate data
+        if not bookmarked_stocks or any(stock_id is None for stock_id in bookmarked_stocks):
+            return JsonResponse({"error": "Invalid bookmarkedStocks data"}, status=400)
 
         for stock_id in bookmarked_stocks:
-            Bookmarked_Stock.objects.create(user_id=user_id, stock_id=stock_id)
+            Bookmarked_Stock.objects.create(user_id=user_instance.user_id, stock_id=stock_id)
         
         print("bookmarked successssssssss")
         return JsonResponse({"success": True})

@@ -224,9 +224,17 @@
         const outlineIcon = bookmark.querySelector('.bookmark-outline');
         const filledIcon = bookmark.querySelector('.bookmark-filled');
         
-        // Storing ID of bookmark
-        const stockId = event.target.getAttribute('data-id');
+        // Get the clicked bookmark's stock
+        const stockElement = event.target.closest('.result-fields');
+    
+        // Storing ID of stock
+        //const stockId = stockElement.getAttribute('data-id');
+        const stockId = 1;
+
         
+        // Print stockId to verify
+        console.log("Toggled Stock ID:", stockId);
+
         // Toggle between the icons
         if (outlineIcon.style.display === 'none') {
             outlineIcon.style.display = 'inline';
@@ -237,6 +245,9 @@
             filledIcon.style.display = 'inline';
             bookmarkedStocks.add(stockId);
         }
+
+         // Print the current set of bookmarked stocks
+         console.log("Current bookmarkedStocks:", Array.from(bookmarkedStocks));
     }
 
     function saveBookmarks() {
@@ -315,6 +326,7 @@
                                     <strong>Company:</strong> {{ stock.company }}<br>
                                     <strong>Sector:</strong> {{ stock.sector }}<br>
                                     <strong>Market Cap (in Billions):</strong> {{ stock.market_cap }}
+                                    <strong>ID:</strong> {{ stock.stock_id }}
                                 </li>
                             </div>
                             <div class="bookmark">

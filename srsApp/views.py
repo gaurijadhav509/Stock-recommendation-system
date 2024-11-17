@@ -12,6 +12,10 @@ import openai
 from decimal import Decimal
 import google.generativeai as genai
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Bookmarked_Stock, Stocks, Users
+
 
 from django.contrib.auth.models import User
 
@@ -143,3 +147,23 @@ def submit_investment_preferences(request):
         return render(request, 'investment_preferences.html', {'stocks': recommendations, 'error': None})
 
     return render(request, 'investment_preferences.html')
+
+@csrf_exempt
+def save_bookmarks(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        bookmarked_stocks = data.get("bookmarkedStocks", [])
+        user_id = request.user.id  # or retrieve user ID if user is logged in
+
+        for stock_id in bookmarked_stocks:
+            Bookmarked_Stock.objects.create(user_id=user_id, stock_id=stock_id)
+        
+        print("bookmarked successssssssss")
+        return JsonResponse({"success": True})
+    return JsonResponse({"success": False})
+
+
+#def view_bookmarks(request):
+    user_id = request.user.id
+    bookmarks = Bookmarked_Stock.objects.filter(user_id=user_id)
+    return render(request, "bookmarks.html", {"bookmarks": bookmarks})

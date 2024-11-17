@@ -212,25 +212,52 @@
             margin: 15px 25px 0px 40px;
         }
     </style>
-    <script>
-        function toggleBookmark(event) {
-            // Get the clicked bookmark icon's parent element (which contains both icons)
-            const bookmark = event.target.closest('.bookmark');
+<script>
+    let bookmarkedStocks = new Set();
 
-            // Get the two bookmark SVGs inside the clicked bookmark container
-            const outlineIcon = bookmark.querySelector('.bookmark-outline');
-            const filledIcon = bookmark.querySelector('.bookmark-filled');
+    function toggleBookmark(event) {
 
-            // Toggle between the icons
-            if (outlineIcon.style.display === 'none') {
-                outlineIcon.style.display = 'inline';
-                filledIcon.style.display = 'none';
-            } else {
-                outlineIcon.style.display = 'none';
-                filledIcon.style.display = 'inline';
-            }
+        // Get the clicked bookmark icon's parent element (which contains both icons)
+        const bookmark = event.target.closest('.bookmark');
+        
+         // Get the two bookmark SVGs inside the clicked bookmark container
+        const outlineIcon = bookmark.querySelector('.bookmark-outline');
+        const filledIcon = bookmark.querySelector('.bookmark-filled');
+        
+        // Storing ID of bookmark
+        const stockId = event.target.getAttribute('data-id');
+        
+        // Toggle between the icons
+        if (outlineIcon.style.display === 'none') {
+            outlineIcon.style.display = 'inline';
+            filledIcon.style.display = 'none';
+            bookmarkedStocks.delete(stockId);
+        } else {
+            outlineIcon.style.display = 'none';
+            filledIcon.style.display = 'inline';
+            bookmarkedStocks.add(stockId);
         }
-    </script>
+    }
+
+    function saveBookmarks() {
+        fetch("{% url 'save_bookmarks' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": "{{ csrf_token }}",
+            },
+            body: JSON.stringify({ bookmarkedStocks: Array.from(bookmarkedStocks) }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Bookmarks saved successfully!");
+            } else {
+                alert("Error saving bookmarks.");
+            }
+        });
+    }
+</script> 
 </head>
 <body>
     <div class="logo">
@@ -309,7 +336,7 @@
                     {% endfor %}
                 </ul>
                 <div class="button-container bookmark-button" >
-                    <button type="submit">Save Bookmarks</button>
+                    <button type="button" onclick="saveBookmarks()">Save Bookmarks</button>
                 </div>
             {% endif %}
         </div>

@@ -8,4 +8,5 @@ urlpatterns = [
     path('signup/', views.user_signup_view, name="user_signup_view"),
     path('investment_preferences/', views.investment_preferences_view, name='investment_preferences_view'),
     path('submit_investment_preferences/', views.submit_investment_preferences, name='submit_investment_preferences'),
+    path("save_bookmarks/", views.save_bookmarks, name="save_bookmarks"),
 ]

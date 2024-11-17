@@ -23,4 +23,3 @@ urlpatterns = [
     path('srsApp/', include('srsApp.urls')),
     path('admin/', admin.site.urls),
 ]
-

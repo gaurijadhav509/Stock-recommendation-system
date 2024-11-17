@@ -12,39 +12,43 @@ import json
 import openai
 from decimal import Decimal
 import google.generativeai as genai
-
-
 from django.contrib.auth.models import User
+from django.utils import timezone
+# from dotenv import load_dotenv
 
 os.environ["API_KEY"] = 'AIzaSyDBcF3Q3fYpZ1VYVBKZ18op2rouCm1cC5k'
 genai.configure(api_key=os.environ["API_KEY"])
 
+# # Load environment variables from the .env file
+# load_dotenv()
+
+# # Fetch the API key from the environment variable
+# api_key = os.getenv('API_KEY')
+
 
 def home_view(request):
     return render(request, 'home.html')
+
 
 def login_view(request):
     if request.method == "POST":
         email_v = request.POST['u_email']
         password_v = request.POST['u_password']
 
-        if (check_user_exists(email_v)):
-            print("hereee")
+        if check_user_exists(email_v):
             user = get_one_user(email_v)
-            
-            if(user["password"] == password_v):
+            if user["password"] == password_v:
                 messages.success(request, 'Login Successful!')
-                return redirect('/srsApp/login_success', {})
+                return redirect('investment_preferences_view')  # Redirect to investment preferences
             else:
-                messages.warning(request, 'invalid username or password!')
-                return redirect('/srsApp/login')
-                
+                messages.warning(request, 'Invalid username or password!')
+                return redirect('login')
         else:
-            messages.warning(request, 'invalid username or password!')
-            print("hereee1")
-            return redirect('/srsApp/login')
+            messages.warning(request, 'Invalid username or password!')
+            return redirect('login')
     else:
         return render(request, "login.html")
+
 
 def login_success(request):
     return render(request, 'login_success.html')
@@ -62,11 +66,11 @@ def user_signup_view(request):
         try:
             validator(email_v)
 
-            if (check_user_exists(email_v)):
+            if check_user_exists(email_v):
                 messages.warning(request, 'User already exists.')
                 return render(request, 'signup.html')
-            elif(password_v != conf_pass_v):
-                messages.warning(request, 'Password doesn\'t match.')
+            elif password_v != conf_pass_v:
+                messages.warning(request, 'Passwords do not match.')
                 return render(request, 'signup.html')
             else:
                 try:
@@ -74,11 +78,11 @@ def user_signup_view(request):
                 except:
                     messages.warning(request, 'Something went wrong.')
                     return render(request, 'signup.html')
-                    
-                messages.success(request, 'User Registerd successfully!')
-                return redirect('/srsApp/login_success')
 
-        except ValidationError as e:
+                messages.success(request, 'User registered successfully!')
+                return redirect('login')  # Redirect to login page
+
+        except ValidationError:
             messages.warning(request, 'Email is invalid')
             return render(request, 'signup.html')
 
@@ -88,11 +92,12 @@ def user_signup_view(request):
 def investment_preferences_view(request):
     return render(request, 'investment_preferences.html')
 
+
 def submit_investment_preferences(request):
     if request.method == 'POST':
         # Retrieve the user instance
         user_instance = Users.objects.get(user_id=1)
-        
+
         # Retrieve form data
         risk_tolerance = int(request.POST.get('risk_tolerance'))
         asset_type = int(request.POST.get('asset_type'))
@@ -104,33 +109,41 @@ def submit_investment_preferences(request):
         if validation_error:
             return render(request, 'investment_preferences.html', {'error': validation_error})
 
-        # Step 2: Save investment preference if valid
-        investment_preference = Investment_Preferences.objects.create(
-            user_id=user_instance.user_id,
+        # Step 2: Save investment preference using raw SQL
+        try:
+            preference_id = upsert_investment_preferences(user_instance.user_id, risk_tolerance, asset_type, preferred_region, preferred_exchange)
+        except Exception as e:
+            return render(request, 'investment_preferences.html', {'error': f"An unexpected error occurred: {str(e)}"})
+
+        investment_preference = Investment_Preferences(
             risk_tolerance=risk_tolerance,
             asset_type=asset_type,
             preferred_region=preferred_region,
             preferred_exchange=preferred_exchange
         )
 
+
         # Step 3: Fetch recommendations from Gemini
         try:
             recommendations = get_recommendations_from_gemini(investment_preference)
         except Exception as e:
-            return render(request, 'investment_preferences.html', {'error': f"An unexpected error occurred: {str(e)}"})
+            return render(request, 'investment_preferences.html', {'error': f"An error occurred while fetching recommendations: {str(e)}"})
 
         # Step 4: Save the recommended stocks
         for stock in recommendations:
-            Stocks.objects.create(
-                stock_symbol=stock['symbol'],
-                company_name=stock['company'],
-                sector=stock.get('sector', ''),
-                market_cap=stock.get('market_cap')
-            )
+            stock_id = insert_stock_and_map_to_investment_preference(
+            stock['symbol'], 
+            stock['company'], 
+            stock.get('sector', ''), 
+            stock.get('market_cap', 0), 
+            preference_id
+    )
 
         return render(request, 'investment_preferences.html', {'stocks': recommendations, 'error': None})
 
     return render(request, 'investment_preferences.html')
+
+
 def view_bookmarked_stocks(request):
     # Check if the user is authenticated
     if request.user.is_authenticated:

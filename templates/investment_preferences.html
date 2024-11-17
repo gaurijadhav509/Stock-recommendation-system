@@ -292,15 +292,12 @@
                             </div>
                             <div class="bookmark">
                                 <span class="bookmark-icon" onclick="toggleBookmark(event)" data-id="{{ stock.id }}">
-                                    
                                     <!-- Outline Bookmark SVG -->
                                     <svg id="bookmark-outline" class="bookmark-outline" width="27" height="32" viewBox="0 0 27 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M1 29.0339V2C1 1.44772 1.44772 1 2 1H25C25.5523 1 26 1.44772 26 2V29.0929C26 29.8993 25.0946 30.374 24.4313 29.9155L13.755 22.5341C13.4053 22.2924 12.9409 22.2981 12.5973 22.5485L2.58895 29.8421C1.92809 30.3237 1 29.8516 1 29.0339Z" fill="#F5F5F5" stroke="#002D72" stroke-width="2"/>
                                     </svg>
-                                        
-
                                     <!-- Filled Bookmark SVG -->
-                                    <svg id="bookmark-filled" class="bookmark-filled" width="27" height="32" viewBox="0 0 27 32" fill="none" xmlns="http://www.w3.org/2000/svg"  style="display: none;">
+                                    <svg id="bookmark-filled" class="bookmark-filled" width="27" height="32" viewBox="0 0 27 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
                                         <path d="M1 29.0339V2C1 1.44772 1.44772 1 2 1H25C25.5523 1 26 1.44772 26 2V29.0929C26 29.8993 25.0946 30.374 24.4313 29.9155L13.755 22.5341C13.4053 22.2924 12.9409 22.2981 12.5973 22.5485L2.58895 29.8421C1.92809 30.3237 1 29.8516 1 29.0339Z" fill="#003172" stroke="#002D72" stroke-width="2"/>
                                     </svg> 
                                 </span>
@@ -308,10 +305,17 @@
                         </div>
                     {% endfor %}
                 </ul>
-                <div class="button-container bookmark-button" >
+                <div class="button-container bookmark-button">
                     <button type="submit">Save Bookmarks</button>
                 </div>
             {% endif %}
+            <!-- Add "View Bookmarked Stocks" Button Below Recommended Stocks -->
+            <div class="button-container submit-button">
+                <a href="{% url 'view_bookmarked_stocks' %}">
+                    <button type="button">View Bookmarked Stocks</button>
+                </a>
+            </div>
         </div>
+        
     </div>
 </body>

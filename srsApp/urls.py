@@ -9,4 +9,5 @@ urlpatterns = [
     path('investment_preferences/', views.investment_preferences_view, name='investment_preferences_view'),
     path('submit_investment_preferences/', views.submit_investment_preferences, name='submit_investment_preferences'),
     path('bookmarked_stocks/', views.view_bookmarked_stocks, name='view_bookmarked_stocks'),
+    path("save_bookmarks/", views.save_bookmarks, name="save_bookmarks"),
 ]

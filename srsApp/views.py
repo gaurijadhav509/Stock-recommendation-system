@@ -12,8 +12,16 @@ import json
 import openai
 from decimal import Decimal
 import google.generativeai as genai
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from .models import Bookmarked_Stock, Stocks, Users
+
+
 from django.contrib.auth.models import User
 from django.utils import timezone
+
+
 # from dotenv import load_dotenv
 
 os.environ["API_KEY"] = 'AIzaSyDBcF3Q3fYpZ1VYVBKZ18op2rouCm1cC5k'
@@ -167,3 +175,39 @@ def view_bookmarked_stocks(request):
 
     # Render the template with the stocks data
     return render(request, 'view_bookmarked_stocks.html', {'bookmarked_stocks': stocks_data})
+    
+@csrf_exempt
+def save_bookmarks(request):
+    if request.method == "POST":
+        # Retrieve the user instance
+        user_instance = Users.objects.get(user_id=1)
+
+        # Print the raw request body
+        print("Raw request body:", request.body)
+
+        # Parse the JSON payload
+        try:
+            data = json.loads(request.body)
+            print("Parsed data:", data)
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON data"}, status=400)
+        
+        bookmarked_stocks = data.get("bookmarkedStocks", [])
+        #user_id = request.user.id  # or retrieve user ID if user is logged in
+
+        # Validate data
+        if not bookmarked_stocks or any(stock_id is None for stock_id in bookmarked_stocks):
+            return JsonResponse({"error": "Invalid bookmarkedStocks data"}, status=400)
+
+        for stock_id in bookmarked_stocks:
+            Bookmarked_Stock.objects.create(user_id=user_instance.user_id, stock_id=stock_id)
+        
+        print("bookmarked successssssssss")
+        return JsonResponse({"success": True})
+    return JsonResponse({"success": False})
+
+
+#def view_bookmarks(request):
+    user_id = request.user.id
+    bookmarks = Bookmarked_Stock.objects.filter(user_id=user_id)
+    return render(request, "bookmarks.html", {"bookmarks": bookmarks})

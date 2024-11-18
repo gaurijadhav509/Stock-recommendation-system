@@ -177,3 +177,51 @@ def insert_stock_and_map_to_investment_preference(stock_symbol, company_name, se
             cursor.execute(query_insert_relationship, [stock_id, preference_id])
     
     return stock_id
+
+
+def save_user_bookmarked_stocks(user_id, stock_ids):
+    if not stock_ids or any(stock_id is None for stock_id in stock_ids):
+        return {"success": False, "error": "Invalid stock IDs"}
+
+    try:
+        with connection.cursor() as cursor:
+            for stock_id in stock_ids:
+                # Insert data into the table, ignoring duplicates due to unique_together constraint
+                cursor.execute("""
+                    INSERT IGNORE INTO user_bookmarked_stocks (user_id, stock_id)
+                    VALUES (%s, %s)
+                """, [user_id, stock_id])
+
+        return {"success": True}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+
+def get_bookmarked_stocks_for_user(user_id):
+    query = """
+        SELECT s.stock_id, s.stock_symbol, s.company_name, s.sector, s.market_cap, s.created_at
+        FROM Stocks s
+        INNER JOIN user_bookmarked_stocks ubs ON s.stock_id = ubs.stock_id
+        WHERE ubs.user_id = %s
+        ORDER BY s.created_at DESC
+    """
+
+    # Execute the query
+    with connection.cursor() as cursor:
+        cursor.execute(query, [user_id])
+        results = cursor.fetchall()
+
+    # Map the query results to a list of dictionaries
+    stocks_data = [
+        {
+            "stock_id": row[0],
+            "symbol": row[1],
+            "name": row[2],
+            "sector": row[3],
+            "market_cap": row[4],
+            "created_at": row[5],
+        }
+        for row in results
+    ]
+
+    return stocks_data

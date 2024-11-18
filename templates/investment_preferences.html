@@ -211,68 +211,76 @@
             height: 35px;
             margin: 15px 25px 0px 40px;
         }
+
+        a.logout {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: #fff;  /* White text color */
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.1em;
+        font-weight: 600;
+        text-decoration: none;
+        background-color: #ff4d4d; /* Red background */
+        padding: 10px 20px;
+        border-radius: 25px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        }
+
+        a.logout:hover {
+            background-color: #ff2a2a; /* Darker red on hover */
+        }
+
     </style>
 <script>
     let bookmarkedStocks = new Set();
 
-    function toggleBookmark(event) {
+function toggleBookmark(event) {
+    const bookmark = event.target.closest('.bookmark');
+    const stockElement = bookmark.closest('.result-fields');
+    const stockId = stockElement.getAttribute('data-id');
 
-        // Get the clicked bookmark icon's parent element (which contains both icons)
-        const bookmark = event.target.closest('.bookmark');
-        
-         // Get the two bookmark SVGs inside the clicked bookmark container
-        const outlineIcon = bookmark.querySelector('.bookmark-outline');
-        const filledIcon = bookmark.querySelector('.bookmark-filled');
-        
-        // Get the clicked bookmark's stock
-        const stockElement = event.target.closest('.result-fields');
-    
-        // Storing ID of stock
-        //const stockId = stockElement.getAttribute('data-id');
-        const stockId = 1;
+    const outlineIcon = bookmark.querySelector('.bookmark-outline');
+    const filledIcon = bookmark.querySelector('.bookmark-filled');
 
-        
-        // Print stockId to verify
-        console.log("Toggled Stock ID:", stockId);
+    if (filledIcon.style.display === 'none') {
+        outlineIcon.style.display = 'none';
+        filledIcon.style.display = 'inline';
+        bookmarkedStocks.add(stockId);
+    } else {
+        outlineIcon.style.display = 'inline';
+        filledIcon.style.display = 'none';
+        bookmarkedStocks.delete(stockId);
+    }
 
-        // Toggle between the icons
-        if (outlineIcon.style.display === 'none') {
-            outlineIcon.style.display = 'inline';
-            filledIcon.style.display = 'none';
-            bookmarkedStocks.delete(stockId);
+    console.log("Bookmarked Stocks:", Array.from(bookmarkedStocks));
+}
+
+function saveBookmarks() {
+    fetch("{% url 'save_bookmarks' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: JSON.stringify({ bookmarkedStocks: Array.from(bookmarkedStocks) }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Bookmarks saved successfully!");
         } else {
-            outlineIcon.style.display = 'none';
-            filledIcon.style.display = 'inline';
-            bookmarkedStocks.add(stockId);
+            alert("Error saving bookmarks.");
         }
-
-         // Print the current set of bookmarked stocks
-         console.log("Current bookmarkedStocks:", Array.from(bookmarkedStocks));
-    }
-
-    function saveBookmarks() {
-        fetch("{% url 'save_bookmarks' %}", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": "{{ csrf_token }}",
-            },
-            body: JSON.stringify({ bookmarkedStocks: Array.from(bookmarkedStocks) }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert("Bookmarks saved successfully!");
-            } else {
-                alert("Error saving bookmarks.");
-            }
-        });
-    }
+    });
+}
 </script> 
 </head>
 <body>
     <div class="logo">
         <img src="../../static/image/logo_light_no_text.png" alt="InvestIQ Logo">
+        
     </div>
     <div class="container">
         <div class="form-section">
@@ -319,13 +327,13 @@
             {% else %}
                 <ul>
                     {% for stock in stocks %}
-                        <div class="result-fields">
+                        <div class="result-fields" data-id="{{ stock.stock_id }}">
                             <div class="asset-content">
                                 <li>
                                     <strong>Symbol:</strong> {{ stock.symbol }}<br>
                                     <strong>Company:</strong> {{ stock.company }}<br>
                                     <strong>Sector:</strong> {{ stock.sector }}<br>
-                                    <strong>Market Cap (in Billions):</strong> {{ stock.market_cap }}
+                                    <strong>Market Cap (in Billions):</strong> {{ stock.market_cap }}<br>
                                     <strong>ID:</strong> {{ stock.stock_id }}
                                 </li>
                             </div>

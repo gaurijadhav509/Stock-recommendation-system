@@ -126,6 +126,10 @@
             cursor: pointer;
         }
 
+        .button-wide {
+            width: 300px;
+        }
+
         .submit-button button{
             background-color: #018976;
             margin-top: 20px;
@@ -355,10 +359,9 @@ function saveBookmarks() {
                     <button type="button" onclick="saveBookmarks()">Save Bookmarks</button>
                 </div>
             {% endif %}
-            <!-- Add "View Bookmarked Stocks" Button Below Recommended Stocks -->
             <div class="button-container submit-button">
                 <a href="{% url 'view_bookmarked_stocks' %}">
-                    <button type="button">View Bookmarked Stocks</button>
+                    <button type="button" class="button-wide">View Bookmarked Stocks</button>
                 </a>
             </div>
         </div>

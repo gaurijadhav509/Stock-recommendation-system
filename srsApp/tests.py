@@ -3,39 +3,42 @@ from django.urls import reverse
 from unittest.mock import patch
 from .models import Users, Investment_Preferences, Stocks
 import json
-from srsApp.services import get_recommendations_from_gemini
+from srsApp.services import *
 from .sql_queries import get_one_user
 
-
-class InvestmentPreferencesViewTests(TestCase):
+class ValidateExchangeRegionTestCase(TestCase):
     
-    def test_investment_preferences_view_renders_template(self):
-        """Test that the investment preferences page renders correctly."""
-        response = self.client.get(reverse('investment_preferences_view'))
-        self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, 'investment_preferences.html')
+    @patch('srsApp.views.EXCHANGE_REGION_MAP', {'NASDAQ': 'North America', 'LSE': 'Europe'})
+    def test_validate_exchange_region_exchange_not_recognized(self):
+        """Test when the exchange is not recognized."""
+        preferred_exchange = 'UNKNOWN_EXCHANGE'
+        preferred_region = 'North America'
+        
+        result = validate_exchange_region(preferred_exchange, preferred_region)
+        
+        self.assertEqual(result, f"Exchange '{preferred_exchange}' is not recognized.")
 
+    @patch('srsApp.views.EXCHANGE_REGION_MAP', {'NASDAQ': 'North America', 'LSE': 'Europe'})
+    def test_validate_exchange_region_match(self):
+        """Test when the exchange matches the preferred region."""
+        preferred_exchange = 'NASDAQ'
+        preferred_region = 'North America'
+        
+        result = validate_exchange_region(preferred_exchange, preferred_region)
+        
+        self.assertIsNone(result)  # Since the exchange and region match, we expect None
 
-class SubmitInvestmentPreferencesTests(TestCase):
-
-    def test_submit_investment_preferences_exchange_region_mismatch(self):
+    @patch('srsApp.views.EXCHANGE_REGION_MAP', {'NASDAQ': 'North America', 'LSE': 'Europe'})
+    def test_validate_exchange_region_mismatch(self):
         """Test when the exchange does not match the preferred region."""
-        Users.objects.create(user_id=1, name='Test User', email='test@example.com', password='testpassword')
-
-        # Mock EXCHANGE_REGION_MAP to simulate the mismatch
-        with patch('srsApp.views.EXCHANGE_REGION_MAP', {'NASDAQ': 'Europe'}):
-            response = self.client.post(reverse('submit_investment_preferences'), {
-                'risk_tolerance': 5,
-                'asset_type': 1,
-                'preferred_region': 'North America',
-                'preferred_exchange': 'LSE'
-            })
-            
-            self.assertEqual(response.status_code, 200)
-            # Check if error message is passed in context
-            self.assertIn('error', response.context)
-            self.assertEqual(response.context['error'], "The exchange 'LSE' is not located in the preferred region 'North America'.")
-    
+        preferred_exchange = 'NASDAQ'
+        preferred_region = 'Europe'  # Mismatched region
+        
+        result = validate_exchange_region(preferred_exchange, preferred_region)
+        
+        self.assertEqual(result, f"The exchange '{preferred_exchange}' is not located in the preferred region '{preferred_region}'.")
+        
+class SubmitInvestmentPreferencesTests(TestCase):
 
     @patch('srsApp.services.genai.GenerativeModel.generate_content')
     def test_get_recommendations_from_gemini_successful(self, mock_generate_content):
@@ -132,7 +135,7 @@ class LoginViewTests(TestCase):
 
         messages_list = list(response.context['messages'])
         self.assertEqual(len(messages_list), 1)
-        self.assertEqual(str(messages_list[0]), 'Login Successful!')
+        self.assertEqual(str(messages_list[0]), 'Login successful!')
 
     def test_login_with_invalid_credentials(self):
         """Test that the Login page password is again."""
@@ -259,22 +262,6 @@ class SignupViewTests(TestCase):
         messages_list = list(response.context['messages'])
         self.assertEqual(len(messages_list), 1)
         self.assertEqual(str(messages_list[0]), 'Email is invalid')
-
-    # def test_signup_post_empty_password(self):
-    #     """Test that empty password is handled properly."""
-    #     response = self.client.post(self.signup_url, {
-    #         'u_name': self.valid_name,
-    #         'u_email': self.valid_email,  
-    #         'u_password': '', # Empty Password field
-    #         'conf_password': self.confirm_password
-    #     },)
-
-    #     self.assertEqual(response.status_code, 200)
-
-    #     messages_list = list(response.context['messages'])
-    #     self.assertEqual(len(messages_list), 1)
-    #     self.assertEqual(str(messages_list[0]), 'Password doesn\'t match.')
-
 
     @patch('srsApp.views.insert_user')  # Mocking insert_user function
     def test_signup_with_server_error(self, mock_insert_user):

@@ -52,6 +52,7 @@
         }
 
         .form-section h2 {
+            font-family: 'Montserrat', sans-serif;
             text-align: center;
             color: #000;
             font-size: 1.8em;
@@ -157,6 +158,7 @@
         }
 
         .recommendations h2 {
+            font-family: 'Montserrat', sans-serif;
             text-align: center;
             color: #000;
             font-size: 1.8em;
@@ -217,23 +219,28 @@
         }
 
         a.logout {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        color: #fff;  /* White text color */
-        font-family: 'Poppins', sans-serif;
-        font-size: 1.1em;
-        font-weight: 600;
-        text-decoration: none;
-        background-color: #ff4d4d; /* Red background */
-        padding: 10px 20px;
-        border-radius: 25px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 70px;
+            height: 30px;
+
+            color: #fff;  
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            background-color: #ff4d4d; 
+
+            padding: 10px 20px;
+            border-radius: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
         }
 
         a.logout:hover {
-            background-color: #ff2a2a; /* Darker red on hover */
+            background-color: #ff2a2a; 
         }
 
     </style>
@@ -282,7 +289,7 @@ function saveBookmarks() {
 </script> 
 </head>
 <body>
-    <a href="{% url 'logout' %}" class="logout">Logout</a> <!-- Logout button positioned at top-right -->
+    <a href="{% url 'logout' %}" class="logout">Logout</a> 
     <div class="logo">
         <img src="../../static/image/logo_light_no_text.png" alt="InvestIQ Logo">
     </div>

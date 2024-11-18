@@ -7,61 +7,53 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/home.styles.css' %}">
     <style>
-        /* Prevent horizontal scrolling */
+
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        
         html, body {
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;  /* Prevent horizontal scrolling */
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Custom Styles for Bookmarked Stocks Page */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-        
-        body {
-            font-family: 'Poppins', sans-serif;
             display: flex;
-            flex-direction: column;
-            background: linear-gradient(0deg, #008E77, #002D72); /* Same background as home page */
-            min-height: 100vh;
-        }
-
-        /* Navigation Bar */
-        .nav-bar {
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 20px;
-            position: relative;
-            box-sizing: border-box;
+            height: 100vh; 
+            background: linear-gradient(0deg, #008E77, #002D72); 
+            overflow-x: hidden;  /* Prevent horizontal scrolling */
         }
 
         .logo img {
             width: 60px;
             height: 60px;
+            position: absolute;
+            top: 36px;
+            left: 43px;
         }
 
-        /* Logout Button */
-        .logout {
+        a.logout {
             position: absolute;
             top: 20px;
             right: 20px;
+            width: 70px;
+            height: 30px;
+
+            color: #fff;  
             font-family: 'Poppins', sans-serif;
-            font-size: 16px;
-            font-weight: 500;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-align: center;
             text-decoration: none;
-            color: white;
-            background-color: #ff4d4d;
+            background-color: #ff4d4d; 
+
             padding: 10px 20px;
-            border-radius: 25px;
+            border-radius: 40px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            z-index: 1;
+            cursor: pointer;
         }
 
-        .logout:hover {
-            background-color: #ff2a2a;
+        a.logout:hover {
+            background-color: #ff2a2a; 
         }
 
         /* Content Section */
@@ -75,10 +67,12 @@
 
         .content h1 {
             font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
             font-size: 40px;
-            font-weight: 600;
             text-align: center;
+            color: #fff;
             margin-bottom: 20px;
+            margin-top: 0px;
         }
 
         .content p {
@@ -86,7 +80,7 @@
             font-size: 20px;
             text-align: center;
             margin-bottom: 40px;
-            max-width: 80%;
+            max-width: 100%;
         }
 
         /* Table for Bookmarked Stocks */
@@ -143,12 +137,9 @@
     </style>
 </head>
 <body>
-    <div class="nav-bar">
-        <div class="logo">
-            <img src="{% static 'image/logo_light_no_text.png' %}" alt="InvestIQ Logo">
-        </div>
-        <!-- Logout button positioned to the right -->
-        <a href="{% url 'logout' %}" class="logout">Logout</a>
+    <a href="{% url 'logout' %}" class="logout">Logout</a> <!-- Logout button positioned at top-right -->
+    <div class="logo">
+        <img src="../../static/image/logo_light_no_text.png" alt="InvestIQ Logo">
     </div>
 
     <div class="content">

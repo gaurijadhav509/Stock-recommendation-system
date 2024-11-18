@@ -278,9 +278,9 @@ function saveBookmarks() {
 </script> 
 </head>
 <body>
+    <a href="{% url 'logout' %}" class="logout">Logout</a> <!-- Logout button positioned at top-right -->
     <div class="logo">
         <img src="../../static/image/logo_light_no_text.png" alt="InvestIQ Logo">
-        
     </div>
     <div class="container">
         <div class="form-section">
@@ -333,8 +333,7 @@ function saveBookmarks() {
                                     <strong>Symbol:</strong> {{ stock.symbol }}<br>
                                     <strong>Company:</strong> {{ stock.company }}<br>
                                     <strong>Sector:</strong> {{ stock.sector }}<br>
-                                    <strong>Market Cap (in Billions):</strong> {{ stock.market_cap }}<br>
-                                    <strong>ID:</strong> {{ stock.stock_id }}
+                                    <strong>Market Cap (in Billions):</strong> {{ stock.market_cap }}<br>   
                                 </li>
                             </div>
                             <div class="bookmark">

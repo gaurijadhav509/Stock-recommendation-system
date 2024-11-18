@@ -7,13 +7,20 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/home.styles.css' %}">
     <style>
+        /* Prevent horizontal scrolling */
+        html, body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;  /* Prevent horizontal scrolling */
+            width: 100%;
+            height: 100%;
+        }
+
         /* Custom Styles for Bookmarked Stocks Page */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
         
         body {
             font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
             display: flex;
             flex-direction: column;
             background: linear-gradient(0deg, #008E77, #002D72); /* Same background as home page */
@@ -27,6 +34,8 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px;
+            position: relative;
+            box-sizing: border-box;
         }
 
         .logo img {
@@ -34,18 +43,25 @@
             height: 60px;
         }
 
-        .auth-buttons {
-            margin-top: 10px;
-            margin-right: 20px;
-        }
-
-        .auth-buttons a {
+        /* Logout Button */
+        .logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
             font-family: 'Poppins', sans-serif;
             font-size: 16px;
             font-weight: 500;
             text-decoration: none;
             color: white;
-            padding: 10px;
+            background-color: #ff4d4d;
+            padding: 10px 20px;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
+        .logout:hover {
+            background-color: #ff2a2a;
         }
 
         /* Content Section */
@@ -131,7 +147,8 @@
         <div class="logo">
             <img src="{% static 'image/logo_light_no_text.png' %}" alt="InvestIQ Logo">
         </div>
-        <a href="{% url 'logout' %}">Logout</a>
+        <!-- Logout button positioned to the right -->
+        <a href="{% url 'logout' %}" class="logout">Logout</a>
     </div>
 
     <div class="content">

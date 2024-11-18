@@ -384,10 +384,9 @@ def save_bookmarks(request):
     # View: Logout
 def logout_view(request):
     # Clear the session to log out the user
-    request.session.flush()  # This will remove all session data, effectively logging the user out
-    
-    # Optionally, add a message to let the user know they have logged out
-    messages.success(request, "You have been logged out successfully.")
+    request.session.flush() 
+    request.session.flush()
+    list(messages.get_messages(request))
     
     # Redirect to the login page
-    return redirect('login')
+    return redirect('home')

@@ -91,6 +91,55 @@
         button:hover {
             background-color: #016d5e;
         }
+
+        @media (max-width: 376px){
+            body {
+                overflow-y: hidden;
+            }
+
+            h2 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 700;
+                font-size: 30px;
+                text-align: center;
+                margin-bottom: 50px;
+            }
+
+            .logo img {
+                display: none;
+            }
+
+            input[type="text"], input[type="password"] {
+                width: 313px;
+                height: 50px;
+            }
+        }
+
+        @media (min-width: 377px) and (max-width: 431px){
+            body {
+                overflow-y: hidden;
+            }
+
+            h2 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 700;
+                font-size: 30px;
+                text-align: center;
+                margin-bottom: 50px;
+            }
+
+            .logo img {
+                position: absolute;
+                top: 70px;
+                left: 50%; 
+                transform: translateX(-50%); 
+            }
+
+            input[type="text"], input[type="password"] {
+                width: 313px;
+                height: 50px;
+            }
+        }
     </style>
 
     <script>

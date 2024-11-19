@@ -16,27 +16,49 @@
             justify-content: center;
             align-items: center;
             height: 100vh; 
-            background: linear-gradient(0deg, #008E77, #002D72); 
         }
 
-        .logo img {
-            width: 60px;
-            height: 60px;
-            position: absolute;
-            top: 36px;
-            left: 43px;
-        }
+        @media (min-width: 431px){
 
-        .container {
-            display: flex;
-            flex-direction: row; 
-            background-color: white;
-            border-radius: 40px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            padding: 20px;
-            max-width: 900px;
-            width: 100%;
-            box-sizing: border-box;
+            body {
+                background: linear-gradient(0deg, #008E77, #002D72); 
+            }
+
+            .container {
+                display: flex;
+                flex-direction: row; 
+                background-color: white;
+                border-radius: 40px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                padding: 20px;
+                max-width: 900px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .pref-fields input, .pref-fields select {
+                box-sizing: border-box;
+                margin-bottom: 24px;
+
+                width: 413px;
+                height: 53px;
+                background-color: #E5F4F0;
+                border-radius: 40px;
+                border: none;
+                padding-left: 20px;
+                font-family: 'Poppins', sans-serif;
+                font-size: 14px;
+                font-weight: 600;
+                color: #858686;
+            }
+
+            .logo img {
+                width: 60px;
+                height: 60px;
+                position: absolute;
+                top: 36px;
+                left: 43px;
+            }
         }
 
         .form-section, .recommendations {
@@ -73,22 +95,6 @@
             border-radius: 4px;
             margin-bottom: 15px;
             width: 300px;
-        }
-
-        .pref-fields input, .pref-fields select {
-            box-sizing: border-box;
-            margin-bottom: 24px;
-
-            width: 413px;
-            height: 53px;
-            background-color: #E5F4F0;
-            border-radius: 40px;
-            border: none;
-            padding-left: 20px;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            font-weight: 600;
-            color: #858686;
         }
 
         /* Customized drop down arrow styling */
@@ -236,11 +242,79 @@
             padding: 10px 20px;
             border-radius: 40px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
+            cursor: pointer;               
         }
 
         a.logout:hover {
             background-color: #ff2a2a; 
+        }
+
+        @media (max-width: 376px){
+
+            body {
+                background: white;
+                overflow-x: hidden;
+            }
+
+            .logo img {
+                display: none;
+            }
+
+            .container {
+                box-sizing: border-box;
+                width: 100%;
+                height: 100%;
+
+                display: flex;
+                flex-direction: column; 
+                align-items: center;
+                padding: 50px;
+            }
+
+            .pref-fields input, .pref-fields select {
+                box-sizing: border-box;
+                margin-bottom: 24px;
+
+                width: 313px;
+                height: 50px;
+                background-color: #E5F4F0;
+                border-radius: 40px;
+                border: none;
+                padding-left: 20px;
+                font-family: 'Poppins', sans-serif;
+                font-size: 14px;
+                font-weight: 600;
+                color: #858686;
+            }
+
+            .recommendations {
+                padding: 20px 20px 50px 20px;
+            }
+
+            .form-section h2 {
+                margin-top: 20px;
+            }
+
+            .form-section {
+                border: none;
+                margin-top: 0px;
+            }
+
+            .form-section button {
+                margin-top: 0;
+            }
+
+            .recommendations h2 {
+                margin-bottom: 30px;
+            }
+
+            .bookmark-button {
+                margin-top: 20px;
+            }
+        }
+
+        @media (min-width: 377px) and (max-width: 431px){
+
         }
 
     </style>

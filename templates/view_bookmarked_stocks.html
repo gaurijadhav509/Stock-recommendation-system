@@ -17,7 +17,6 @@
             padding: 0;
             display: flex;
             justify-content: center;
-            align-items: center;
             height: 100vh; 
             background: linear-gradient(0deg, #008E77, #002D72); 
             overflow-x: hidden;  /* Prevent horizontal scrolling */
@@ -32,7 +31,7 @@
         }
 
         a.logout {
-            position: absolute;
+            position: fixed;
             top: 20px;
             right: 20px;
             width: 70px;
@@ -56,69 +55,11 @@
             background-color: #ff2a2a; 
         }
 
-        /* Content Section */
-        .content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: white;
-            margin-top: 50px;
-        }
-
-        .content h1 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 40px;
-            text-align: center;
-            color: #fff;
-            margin-bottom: 20px;
-            margin-top: 0px;
-        }
-
-        .content p {
-            font-family: 'Poppins', sans-serif;
-            font-size: 20px;
-            text-align: center;
-            margin-bottom: 40px;
-            max-width: 100%;
-        }
-
-        /* Table for Bookmarked Stocks */
-        .stock-table {
-            width: 80%;
-            margin: 0 auto;
-            border-collapse: collapse;
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background for the table */
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .stock-table th, .stock-table td {
-            padding: 15px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .stock-table th {
-            background-color: #004D60;
-            font-size: 18px;
-            font-weight: 600;
-        }
-
-        .stock-table td {
-            font-size: 16px;
-        }
-
-        .stock-table tr:nth-child(even) {
-            background-color: #00384D;
-        }
-
-        /* Footer/CTA Button Section */
         .cta-button {
             margin-top: 30px;
         }
 
-        .cta-button button {
+            .cta-button button {
             width: 200px;
             height: 50px;
             border-radius: 30px;
@@ -133,6 +74,143 @@
         .cta-button button:hover {
             background-color: #f0f0f0;
             cursor: pointer;
+        }
+
+        @media (min-width: 431px){
+
+            html, body {
+                align-items: center;
+            }
+
+            /* Content Section */
+            .content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: white;
+                margin-top: 50px;
+            }
+
+            .content h1 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 700;
+                font-size: 40px;
+                text-align: center;
+                color: #fff;
+                margin-bottom: 20px;
+                margin-top: 0px;
+            }
+
+            .content p {
+                font-family: 'Poppins', sans-serif;
+                font-size: 20px;
+                text-align: center;
+                margin-bottom: 40px;
+                max-width: 100%;
+            }
+
+            /* Table for Bookmarked Stocks */
+            .stock-table {
+                width: 80%;
+                margin: 0 auto;
+                border-collapse: collapse;
+                text-align: center;
+                background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent background for the table */
+                border-radius: 10px;
+                overflow: hidden;
+            }
+
+            .stock-table th, .stock-table td {
+                padding: 15px;
+                border-bottom: 1px solid #ddd;
+            }
+
+            .stock-table th {
+                background-color: #004D60;
+                font-size: 18px;
+                font-weight: 600;
+            }
+
+            .stock-table td {
+                font-size: 16px;
+            }
+
+            .stock-table tr:nth-child(even) {
+                background-color: #00384D;
+            }
+        }
+
+        @media (max-width: 431px){
+
+            html, body {
+                overflow: auto; 
+                height: auto;
+            }
+
+            .logo img {
+                display: none;
+            }
+
+            .content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                color: white;
+                margin-top: 70px;
+                padding: 0 15px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .content h1 {
+                font-family: 'Montserrat', sans-serif;
+                font-weight: 700;
+                font-size: 1.5em;
+                text-align: center;
+                margin-bottom: 15px;
+            }
+
+            .content p {
+                font-family: 'Poppins', sans-serif;
+                font-size: 0.9em;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .stock-table {
+                width: 100%;
+                margin: 0 auto;
+                border-collapse: collapse;
+                text-align: left;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 5px;
+            }
+
+            .stock-table th, .stock-table td {
+                padding: 10px;
+                border-bottom: 1px solid #ddd;
+                font-size: 0.8em;
+                word-wrap: break-word;
+            }
+
+            .stock-table th {
+                background-color: #004D60;
+                font-size: 0.9em;
+                font-weight: 600;
+                text-align: left;
+            }
+
+            .stock-table td {
+                font-size: 0.85em;
+            }
+
+            .stock-table tr:nth-child(even) {
+                background-color: #00384D;
+            }
+
+            .cta-button {
+                margin: 30px 0;
+            }
         }
     </style>
 </head>

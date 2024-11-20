@@ -7,7 +7,6 @@ class Users(models.Model):
     user_id = models.AutoField(primary_key=True, null=False)
     name = models.CharField(max_length=50, null=False)
     email = models.EmailField()
-    # email = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=255, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -28,7 +27,7 @@ class Stocks(models.Model):
         db_table = "Stocks"
 
 #### Investment Preferences Table.
-class Investment_Prefrences(models.Model):
+class Investment_Preferences(models.Model):
     class Risk_Tolerance(models.IntegerChoices):
         LOW = 1,
         MEDIUM = 2,
@@ -38,10 +37,9 @@ class Investment_Prefrences(models.Model):
         STOcKS = 1,
         BONDS = 2,
         OPTIONS = 3,
-    prefrence_id = models.AutoField(primary_key=True, null=False)
-    user_id = models.IntegerField(null=False)
+    preference_id = models.AutoField(primary_key=True, null=False)
     preferred_region = models.CharField(max_length=100)
-    preferred_exchage = models.CharField(max_length=100)
+    preferred_exchange = models.CharField(max_length=100)
     risk_tolerance = models.IntegerField(
         choices=Risk_Tolerance.choices,
         default=Risk_Tolerance.LOW
@@ -50,37 +48,44 @@ class Investment_Prefrences(models.Model):
         choices=Asset_Type.choices,
         default=Asset_Type.STOcKS
     )
-    # user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "Investment_Prefrences"
+        db_table = "Investment_Preferences"
 
 ##### Tables for Relationships
 
 ## 1. User_Boookmarked Stocks
-class user_bookmarked_stocks:
-    user_id = models.IntegerField(primary_key=True, null=False)
-    stock_id = models.IntegerField(primary_key=True, null=False)
-    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
-    stock_id = models.ForeignKey(Stocks, on_delete=models.CASCADE)
+class User_Bookmarked_Stocks(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    stock = models.ForeignKey(Stocks, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "user_bookmarked_stocks"
+        unique_together = ('user', 'stock') ### making compsite key
 
-class user_investment_prefrences:
-    user_id = models.IntegerField(primary_key=True, null=False)
-    prefrence_id = models.IntegerField(primary_key=True, null=False)
-    user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
-    prefrence_id = models.ForeignKey(Investment_Prefrences, on_delete=models.CASCADE)
-
-    class Meta:
-        db_table = "user_investment_prefrences"
-
-class stock_investment_prefrences:
-    prefrence_id = models.IntegerField(primary_key=True, null=False)
-    stock_id = models.IntegerField(primary_key=True, null=False)
-    prefrence_id = models.ForeignKey(Investment_Prefrences, on_delete=models.CASCADE)
-    stock_id = models.ForeignKey(Stocks, on_delete=models.CASCADE)
+class User_Investment_Preferences(models.Model):
+    user = models.ForeignKey(Users, on_delete=models.CASCADE)
+    preference = models.ForeignKey(Investment_Preferences, on_delete=models.CASCADE)
 
     class Meta:
-        db_table = "stock_investment_prefrences"
+        db_table = "user_investment_preferences"
+        unique_together = ('user', 'preference')
+
+class Stock_Investment_Preferences(models.Model):
+    preference = models.ForeignKey(Investment_Preferences, on_delete=models.CASCADE)
+    stock = models.ForeignKey(Stocks, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "stock_investment_preferences"
+        unique_together = ('stock', 'preference')
+
+
+EXCHANGE_REGION_MAP = {
+    'NYSE': 'North America',
+    'NASDAQ': 'North America',
+    'LSE': 'Europe',
+    'BSE': 'Asia',
+    'NSE': 'Asia',
+    'HKEX': 'Asia',
+    'ASX': 'Australia',
+}

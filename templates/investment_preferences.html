@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Preferences</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        
+        html, body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; 
+        }
+
+        @media (min-width: 431px){
+
+            body {
+                background: linear-gradient(0deg, #008E77, #002D72); 
+            }
+
+            .container {
+                display: flex;
+                flex-direction: row; 
+                background-color: white;
+                border-radius: 40px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                padding: 20px;
+                max-width: 900px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .pref-fields input, .pref-fields select {
+                box-sizing: border-box;
+                margin-bottom: 24px;
+
+                width: 413px;
+                height: 53px;
+                background-color: #E5F4F0;
+                border-radius: 40px;
+                border: none;
+                padding-left: 20px;
+                font-family: 'Poppins', sans-serif;
+                font-size: 14px;
+                font-weight: 600;
+                color: #858686;
+            }
+
+            .logo img {
+                width: 60px;
+                height: 60px;
+                position: absolute;
+                top: 36px;
+                left: 43px;
+            }
+        }
+
+        .form-section, .recommendations {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-section {
+            flex: 1;
+            border-right: 1px solid #ddd;
+            padding: 20px;
+        }
+
+        .form-section h2 {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            color: #000;
+            font-size: 1.8em;
+            margin-bottom: 40px;
+            margin-top: 0px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        input, select {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            width: 300px;
+        }
+
+        /* Customized drop down arrow styling */
+        select{
+            background: url(/static/image/drop_down_arrow.svg) no-repeat;
+            -moz-appearance: none; 
+            -webkit-appearance: none; 
+            appearance: none;
+
+            background-position: 370px;
+        }
+
+        input::placeholder {
+            color: #858686;
+            opacity: 1;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button {
+            height: 60px;
+            width: 200px;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            border: none;
+            border-radius: 40px;
+            text-align: center;
+            padding: 12px;
+            cursor: pointer;
+        }
+
+        .button-wide {
+            width: 300px;
+        }
+
+        .submit-button button{
+            background-color: #018976;
+            margin-top: 20px;
+        }
+
+        .submit-button button:hover {
+            background-color: #016d5e;
+        }
+
+        .bookmark-button button{
+            background-color: #2A548B;
+        }
+
+        .bookmark-button button:hover {
+            background-color: #002D72;
+        }
+
+        /* Right-side recommendations styling */
+        .recommendations {
+            flex: 1;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 20px 0px 20px;
+        }
+
+        .recommendations h2 {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            color: #000;
+            font-size: 1.8em;
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+
+        .no-recommendations {
+            font-size: 1em;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .recommendations ul {
+            list-style-type: none;
+            padding: 0px;
+            margin: 0px;
+        }
+
+        .result-fields {
+            width: 300px;
+            height: 70px;
+
+            margin-top: 15px;
+            padding-left: 30px;
+            padding-top: 10px;
+
+            background-color: #D3E0EB;
+            border-radius: 40px;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 10px;
+            font-weight: 400;
+            color: #696969;
+
+            display: flex;
+            flex-direction: row;
+        }
+
+        .recommendations li strong {
+            font-weight: bold;
+        }
+
+        .asset-content {
+            box-sizing: border-box;
+            width: 200px;
+
+        }
+
+        .bookmark-icon {
+            cursor: pointer;
+        }
+
+        .bookmark {
+            box-sizing: border-box;
+            height: 35px;
+            margin: 15px 25px 0px 40px;
+        }
+
+        a.logout {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 70px;
+            height: 30px;
+
+            color: #fff;  
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.1em;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            background-color: #ff4d4d; 
+
+            padding: 10px 20px;
+            border-radius: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            cursor: pointer;               
+        }
+
+        a.logout:hover {
+            background-color: #ff2a2a; 
+        }
+
+        @media (max-width: 431px){
+
+            body {
+                background: white;
+                overflow-x: hidden;
+            }
+
+            .logo img {
+                display: none;
+            }
+
+            .container {
+                box-sizing: border-box;
+                width: 100%;
+                height: 100%;
+
+                display: flex;
+                flex-direction: column; 
+                align-items: center;
+                padding: 50px;
+            }
+
+            .pref-fields input, .pref-fields select {
+                box-sizing: border-box;
+                margin-bottom: 24px;
+
+                width: 313px;
+                height: 50px;
+                background-color: #E5F4F0;
+                border-radius: 40px;
+                border: none;
+                padding-left: 20px;
+                font-family: 'Poppins', sans-serif;
+                font-size: 14px;
+                font-weight: 600;
+                color: #858686;
+            }
+
+            .recommendations {
+                padding: 20px 20px 50px 20px;
+            }
+
+            .form-section h2 {
+                margin-top: 20px;
+            }
+
+            .form-section {
+                border: none;
+                margin-top: 0px;
+            }
+
+            .form-section button {
+                margin-top: 0;
+            }
+
+            .recommendations h2 {
+                margin-bottom: 30px;
+            }
+
+            .bookmark-button button {
+                margin-top: 20px;
+            }
+        }
+
+    </style>
+<script>
+    let bookmarkedStocks = new Set();
+
+function toggleBookmark(event) {
+    const bookmark = event.target.closest('.bookmark');
+    const stockElement = bookmark.closest('.result-fields');
+    const stockId = stockElement.getAttribute('data-id');
+
+    const outlineIcon = bookmark.querySelector('.bookmark-outline');
+    const filledIcon = bookmark.querySelector('.bookmark-filled');
+
+    if (filledIcon.style.display === 'none') {
+        outlineIcon.style.display = 'none';
+        filledIcon.style.display = 'inline';
+        bookmarkedStocks.add(stockId);
+    } else {
+        outlineIcon.style.display = 'inline';
+        filledIcon.style.display = 'none';
+        bookmarkedStocks.delete(stockId);
+    }
+
+    console.log("Bookmarked Stocks:", Array.from(bookmarkedStocks));
+}
+
+function saveBookmarks() {
+    fetch("{% url 'save_bookmarks' %}", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: JSON.stringify({ bookmarkedStocks: Array.from(bookmarkedStocks) }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert("Bookmarks saved successfully!");
+        } else {
+            alert("Error saving bookmarks.");
+        }
+    });
+}
+</script> 
+</head>
+<body>
+    <a href="{% url 'logout' %}" class="logout">Logout</a> 
+    <div class="logo">
+        <img src="../../static/image/logo_light_no_text.png" alt="InvestIQ Logo">
+    </div>
+    <div class="container">
+        <div class="form-section">
+            <h2>Investment Preferences</h2>
+            <form action="{% url 'submit_investment_preferences' %}" method="POST">
+                {% csrf_token %}
+                <div class="pref-fields">
+                    <select id="risk_tolerance" name="risk_tolerance" placeholder="Full Name" required>
+                        <option value="" disabled selected hidden>Risk Tolerance</option>
+                        <option value="1">Low</option>
+                        <option value="2">Medium</option>
+                        <option value="3">High</option>
+                    </select>
+                </div> 
+                <div class="pref-fields">
+                    <select id="asset_type" name="asset_type" required>
+                        <option value="" disabled selected hidden>Asset Type</option>
+                        <option value="1">Stocks</option>
+                        <option value="2">Bonds</option>
+                        <option value="3">Options</option>
+                    </select>
+                </div>
+                <div class="pref-fields">
+                    <input type="text" id="preferred_region" name="preferred_region" placeholder="Preferred Region: North America, Europe ..." required>
+                </div>
+                <div class="pref-fields">
+                    <input type="text" id="preferred_exchange" name="preferred_exchange" placeholder="Preferred Exchange: LSE, NYSE, BSE ..." required>
+                </div>
+                <div class="button-container submit-button">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
+        </div>
+
+        <div class="recommendations">
+            <h2>Recommended Stocks</h2>
+            
+            {% if not stocks %}
+                <p class="no-recommendations">No recommendations available</p>
+            {% else %}
+                <ul>
+                    {% for stock in stocks %}
+                        <div class="result-fields" data-id="{{ stock.stock_id }}">
+                            <div class="asset-content">
+                                <li>
+                                    <strong>Symbol:</strong> {{ stock.symbol }}<br>
+                                    <strong>Company:</strong> {{ stock.company }}<br>
+                                    <strong>Sector:</strong> {{ stock.sector }}<br>
+                                    <strong>Market Cap (in Billions):</strong> {{ stock.market_cap }}<br>   
+                                </li>
+                            </div>
+                            <div class="bookmark">
+                                <span class="bookmark-icon" onclick="toggleBookmark(event)" data-id="{{ stock.id }}">
+                                    <!-- Outline Bookmark SVG -->
+                                    <svg id="bookmark-outline" class="bookmark-outline" width="27" height="32" viewBox="0 0 27 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M1 29.0339V2C1 1.44772 1.44772 1 2 1H25C25.5523 1 26 1.44772 26 2V29.0929C26 29.8993 25.0946 30.374 24.4313 29.9155L13.755 22.5341C13.4053 22.2924 12.9409 22.2981 12.5973 22.5485L2.58895 29.8421C1.92809 30.3237 1 29.8516 1 29.0339Z" fill="#F5F5F5" stroke="#002D72" stroke-width="2"/>
+                                    </svg>
+                                    <!-- Filled Bookmark SVG -->
+                                    <svg id="bookmark-filled" class="bookmark-filled" width="27" height="32" viewBox="0 0 27 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                                        <path d="M1 29.0339V2C1 1.44772 1.44772 1 2 1H25C25.5523 1 26 1.44772 26 2V29.0929C26 29.8993 25.0946 30.374 24.4313 29.9155L13.755 22.5341C13.4053 22.2924 12.9409 22.2981 12.5973 22.5485L2.58895 29.8421C1.92809 30.3237 1 29.8516 1 29.0339Z" fill="#003172" stroke="#002D72" stroke-width="2"/>
+                                    </svg> 
+                                </span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </ul>
+                <div class="button-container bookmark-button" >
+                    <button type="button" onclick="saveBookmarks()">Save Bookmarks</button>
+                </div>
+            {% endif %}
+            <div class="button-container submit-button">
+                <a href="{% url 'view_bookmarked_stocks' %}">
+                    <button type="button" class="button-wide">View Bookmarked Stocks</button>
+                </a>
+            </div>
+        </div>
+        
+    </div>
+</body>

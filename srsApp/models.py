@@ -7,7 +7,6 @@ class Users(models.Model):
     user_id = models.AutoField(primary_key=True, null=False)
     name = models.CharField(max_length=50, null=False)
     email = models.EmailField()
-    # email = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=255, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -49,7 +48,6 @@ class Investment_Preferences(models.Model):
         choices=Asset_Type.choices,
         default=Asset_Type.STOcKS
     )
-    # user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "Investment_Preferences"
@@ -58,8 +56,6 @@ class Investment_Preferences(models.Model):
 
 ## 1. User_Boookmarked Stocks
 class User_Bookmarked_Stocks(models.Model):
-    # user_id = models.IntegerField(primary_key=True, null=False)
-    # stock_id = models.IntegerField(primary_key=True, null=False)
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     stock = models.ForeignKey(Stocks, on_delete=models.CASCADE)
 
@@ -68,8 +64,6 @@ class User_Bookmarked_Stocks(models.Model):
         unique_together = ('user', 'stock') ### making compsite key
 
 class User_Investment_Preferences(models.Model):
-    # user_id = models.IntegerField(primary_key=True, null=False)
-    # prefrence_id = models.IntegerField(primary_key=True, null=False)
     user = models.ForeignKey(Users, on_delete=models.CASCADE)
     preference = models.ForeignKey(Investment_Preferences, on_delete=models.CASCADE)
 
@@ -78,8 +72,6 @@ class User_Investment_Preferences(models.Model):
         unique_together = ('user', 'preference')
 
 class Stock_Investment_Preferences(models.Model):
-    # prefrence_id = models.IntegerField(primary_key=True, null=False)
-    # stock_id = models.IntegerField(primary_key=True, null=False)
     preference = models.ForeignKey(Investment_Preferences, on_delete=models.CASCADE)
     stock = models.ForeignKey(Stocks, on_delete=models.CASCADE)
 
@@ -96,5 +88,4 @@ EXCHANGE_REGION_MAP = {
     'NSE': 'Asia',
     'HKEX': 'Asia',
     'ASX': 'Australia',
-    # Add more exchanges as needed
 }

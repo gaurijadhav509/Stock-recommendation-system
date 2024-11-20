@@ -115,7 +115,6 @@ class SubmitInvestmentPreferencesTests(TestCase):
         with self.assertRaises(ValueError):
             get_recommendations_from_gemini(investment_preference)
 
-# Create your tests here.
 class LoginViewTests(TestCase):
     ### 
     def setUp(self):
